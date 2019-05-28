@@ -4,6 +4,7 @@
 #include <nana/gui/widgets/button.hpp>
 #include <nana/gui/widgets/textbox.hpp>
 #include <fmt/format.h>
+#include <square.hpp>
 
 int main()
 {
@@ -15,25 +16,25 @@ int main()
     textbox text = nana::textbox(fm);
 
     //Define a button and answer the click event.
-    button btn{fm, u8"算!"};
+    button btn{fm, u8"Count!"};
     btn.events().click([&fm, &text]{
         auto val = atoi(text.caption().c_str());
         
-        auto msg = msgbox(fm, u8"計算結果");
-        (msg<<fmt::format("{0}*{0}={1}", val, val*val)).show();
+        auto msg = msgbox(fm, u8"Result");
+        (msg<<fmt::format("{0}*{0}={1}", val, square::do_square(val))).show();
 
     });
 
     fm.events().unload([&fm] {
         
-        auto msg = msgbox(fm, u8"重要問題?", msgbox::yes_no);
-        msg<<u8"胡老師美嗎?";
+        auto msg = msgbox(fm, u8"Important Question?", msgbox::yes_no);
+        msg<<u8"Is Prof. HU Beautiful?";
         do {
             if(msg.show()==msgbox::pick_yes)
                 break;
-            auto msg2 = msgbox(fm, u8"訊息");
+            auto msg2 = msgbox(fm, u8"Info");
             msg2.icon(msgbox::icon_information);
-            (msg2<<u8"當學生要誠實").show();
+            (msg2<<u8"Honestly？").show();
         } while(true);
     
     });
